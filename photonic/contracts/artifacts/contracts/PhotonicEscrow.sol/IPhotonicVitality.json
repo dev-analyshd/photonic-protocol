@@ -1,0 +1,39 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "IPhotonicVitality",
+  "sourceName": "contracts/PhotonicEscrow.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "agent",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "bpdQualityScore",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "surplusGenerated",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "wasCompositional",
+          "type": "bool"
+        }
+      ],
+      "name": "recordBPD",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
