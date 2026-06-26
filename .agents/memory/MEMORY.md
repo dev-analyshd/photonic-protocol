@@ -1,0 +1,2 @@
+- [PHOTONIC SDK export rules](photonic-sdk-exports.md) — which names live in which file; key collision points that already burned us
+- [PHOTONIC contract addresses](photonic-contracts.md) — Arbitrum Sepolia addresses for all 5 deployed contracts

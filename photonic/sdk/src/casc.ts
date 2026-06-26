@@ -2,7 +2,7 @@
 //  PHOTONIC SDK — CASC (Cross-Agent State Capsule)
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { keccak256, toUtf8Bytes, hexlify, randomBytes } from "ethers";
+import { keccak256, toUtf8Bytes, hexlify, randomBytes, concat } from "ethers";
 import type { Bytes32, Address, CASCInput, CASC } from "./types.js";
 
 /// Simulate AES-GCM encryption of a state fragment using a session key.
@@ -11,7 +11,7 @@ import type { Bytes32, Address, CASCInput, CASC } from "./types.js";
 function encryptFragment(fragment: unknown, sessionKey: string): Bytes32 {
   const serialized = JSON.stringify(fragment);
   return keccak256(
-    toUtf8Bytes(sessionKey) + toUtf8Bytes(serialized).slice(2)
+    concat([toUtf8Bytes(sessionKey), toUtf8Bytes(serialized)])
   ) as Bytes32;
 }
 

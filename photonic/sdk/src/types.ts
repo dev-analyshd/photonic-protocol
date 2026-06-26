@@ -204,3 +204,88 @@ export interface PhotonicAddresses {
   PhotonicAuction: Address;
   PhotonicEscrow: Address;
 }
+
+// ── Extended Genome (with capabilities/tools arrays for client-side use) ──────
+
+export interface AgentRegistration {
+  agentAddress: Address;
+  genomeHash: Bytes32;
+  txHash: Hex;
+  registeredAt: number;
+}
+
+export interface ProviderStatus {
+  agentAddress: Address;
+  genomeHash: Bytes32;
+  vitality: number;
+  registered: boolean;
+  activeOrders: number;
+  totalBids: number;
+  totalWins: number;
+  totalBpds: number;
+  uptimeSecs: number;
+}
+
+// ── SAIP Bid (off-chain bid with diversity/composability scores) ──────────────
+
+export interface SAIPBid {
+  agentId: string;
+  genomeHash: Bytes32;
+  priceQuoteWei: bigint;
+  bpdSample: Bytes32;
+  diversityScore: number;
+  compositionalFitness: number;
+}
+
+export interface ScoredSAIPBid {
+  bid: SAIPBid;
+  score: number;
+}
+
+// ── SAIP Intent (off-chain intent pool entry) ─────────────────────────────────
+
+export interface SAIPIntent {
+  intentId: Bytes32;
+  buyer: Address;
+  intentHash: Bytes32;
+  taskDescription?: string;
+  maxCostWei: bigint;
+  deadlineUnix: number;
+  qualityFloor: number;
+  privacyMode: "public" | "zk_commitment";
+  compositionMode: "none" | "auto" | "required";
+  status: "open" | "awarded" | "cancelled" | "expired";
+}
+
+// ── Vitality snapshot (float-based, for ML service + TimescaleDB) ─────────────
+
+export interface VitalitySnapshot {
+  vitality: number;
+  bpdQualityAccum: number;
+  compositionalSuccesses: number;
+  surplusAccumWei: string;
+  diversityScore: number;
+  resurrectionVouches: number;
+  totalBpds: number;
+  totalDeliveries: number;
+  inResurrectionTrial: boolean;
+  marketplaceMaturity: number;
+  deathThreshold: number;
+  isDead: boolean;
+}
+
+// ── GenomeBuilder output (client-side genome with capabilities/tools lists) ───
+
+export interface BuiltGenome {
+  genomeHash: Bytes32;
+  capabilityRoot: Bytes32;
+  toolRoot: Bytes32;
+  promptArchHash: Bytes32;
+  behavioralHistoryRoot: Bytes32;
+  fitnessScore: number;
+  generation: number;
+  parentA?: Bytes32;
+  parentB?: Bytes32;
+  capabilities: string[];
+  tools: string[];
+}

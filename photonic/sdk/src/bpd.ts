@@ -3,7 +3,7 @@
 //  Computes Behavioral Proof of Delivery from an execution trace.
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { keccak256, toUtf8Bytes, hexlify, randomBytes } from "ethers";
+import { keccak256, toUtf8Bytes, hexlify, randomBytes, concat } from "ethers";
 import type { BehavioralProofOfDelivery, Bytes32, ExecutionStep } from "./types.js";
 import { buildMerkleRoot } from "./genome.js";
 
@@ -38,11 +38,13 @@ export function generateBPD(params: {
 
   // BPD = Hash(intent || output || execution_trace_root || timestamp || nonce)
   const bpdHash = keccak256(
-    toUtf8Bytes(params.intent) +
-    toUtf8Bytes(params.output).slice(2) +
-    merkleRoot.slice(2) +
-    timestamp.toString(16).padStart(16, "0") +
-    nonce.slice(2)
+    concat([
+      toUtf8Bytes(params.intent),
+      toUtf8Bytes(params.output),
+      toUtf8Bytes(merkleRoot),
+      toUtf8Bytes(timestamp.toString(16).padStart(16, "0")),
+      toUtf8Bytes(nonce),
+    ])
   ) as Bytes32;
 
   // BPD ID is the hash of the provider + intent + timestamp
@@ -69,11 +71,13 @@ export function verifyBPD(bpd: BehavioralProofOfDelivery): boolean {
   if (recomputedRoot !== bpd.merkleRoot) return false;
 
   const recomputedHash = keccak256(
-    toUtf8Bytes(bpd.intent) +
-    toUtf8Bytes(bpd.output).slice(2) +
-    bpd.merkleRoot.slice(2) +
-    bpd.timestamp.toString(16).padStart(16, "0") +
-    bpd.nonce.slice(2)
+    concat([
+      toUtf8Bytes(bpd.intent),
+      toUtf8Bytes(bpd.output),
+      toUtf8Bytes(bpd.merkleRoot),
+      toUtf8Bytes(bpd.timestamp.toString(16).padStart(16, "0")),
+      toUtf8Bytes(bpd.nonce),
+    ])
   ) as Bytes32;
 
   return recomputedHash === bpd.bpdHash;
